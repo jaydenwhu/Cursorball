@@ -1,0 +1,37 @@
+{
+  "name": "cursor-ball",
+  "productName": "Cursor Ball",
+  "version": "1.0.0",
+  "description": "A ball that follows your cursor around the Mac desktop and rolls toward it.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --mac --dir",
+    "sign": "for d in dist/mac*/; do codesign --force --deep --sign - \"${d}Cursor Ball.app\"; done",
+    "package": "npm run dist && npm run sign"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.cursorball.app",
+    "productName": "Cursor Ball",
+    "files": [
+      "main.js",
+      "preload.js",
+      "settings-preload.js",
+      "renderer/**",
+      "settings/**",
+      "assets/**",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.utilities",
+      "icon": "assets/icon.png",
+      "extendInfo": {
+        "LSUIElement": true
+      }
+    }
+  }
+}

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'unsafe-inline'">
+<title>Cursor Ball Settings</title>
+<style>
+  :root {
+    --bg: #f5f5f7; --card: #ffffff; --ink: #1d1d1f; --ink-2: #6e6e73; --line: #d9d9de;
+    --accent: #0a84ff; --field: #f0f0f3;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #1e1e22; --card: #2a2a2f; --ink: #f5f5f7; --ink-2: #a1a1a8; --line: #3d3d44; --field: #38383f; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 20px; background: var(--bg); color: var(--ink); font: 13px -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif; }
+  h1 { margin: 0 0 14px; font-size: 17px; font-weight: 650; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 14px; margin-bottom: 14px; }
+  .field { display: grid; grid-template-columns: 110px 1fr; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--line); }
+  .field:last-child { border-bottom: 0; }
+  .field > label { color: var(--ink); }
+  .pair { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  input[type="range"] { flex: 1; min-width: 0; accent-color: var(--accent); }
+  .num { display: inline-flex; align-items: center; gap: 4px; color: var(--ink-2); }
+  input[type="number"], select {
+    font: inherit; color: var(--ink); background: var(--field); border: 1px solid var(--line); border-radius: 7px; padding: 5px 7px;
+  }
+  input[type="number"] { width: 64px; text-align: right; font-variant-numeric: tabular-nums; }
+  select { width: 100%; }
+  .check { display: flex; align-items: center; gap: 9px; padding: 11px 0; border-bottom: 1px solid var(--line); }
+  .check:last-child { border-bottom: 0; }
+  .check input { accent-color: var(--accent); width: 15px; height: 15px; margin: 0; }
+  .check small { margin-left: auto; color: var(--ink-2); }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 11px 0; }
+  .row .state { margin-right: auto; color: var(--ink-2); }
+  button { font: inherit; color: var(--ink); background: var(--field); border: 1px solid var(--line); border-radius: 7px; padding: 5px 11px; cursor: pointer; }
+  button:hover:not(:disabled) { filter: brightness(1.08); }
+  button:disabled { opacity: 0.45; cursor: default; }
+  button.danger { color: #ff453a; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .note { margin: 0 2px 14px; color: var(--ink-2); font-size: 12px; line-height: 1.45; }
+</style>
+</head>
+<body>
+<h1>Cursor Ball settings</h1>
+
+<div class="card">
+  <div class="field">
+    <label for="sizeNum">Size</label>
+    <div class="pair">
+      <input type="range" id="sizeRange" min="48" max="320" step="1" aria-label="Size slider">
+      <span class="num"><input type="number" id="sizeNum" min="48" max="320" step="1"> px</span>
+    </div>
+  </div>
+  <div class="field">
+    <label for="followNum">Follow speed</label>
+    <div class="pair">
+      <input type="range" id="followRange" min="1" max="10" step="0.5" aria-label="Follow speed slider">
+      <span class="num"><input type="number" id="followNum" min="1" max="10" step="0.5"> /10</span>
+    </div>
+  </div>
+  <div class="field">
+    <label for="quality">Resolution</label>
+    <select id="quality">
+      <option value="1">Standard (1×)</option>
+      <option value="2">Sharp (2×)</option>
+      <option value="4">Ultra (4×)</option>
+    </select>
+  </div>
+</div>
+
+<div class="card">
+  <label class="check"><input type="checkbox" id="enabled"> Show ball</label>
+  <label class="check"><input type="checkbox" id="beside"> Stay beside cursor</label>
+  <label class="check"><input type="checkbox" id="login"> Open at login <small id="loginNote"></small></label>
+</div>
+
+<div class="card">
+  <div class="row">
+    <span class="state" id="imgState">Built-in ball</span>
+    <button type="button" id="choose">Choose image…</button>
+    <button type="button" id="builtin">Use built-in ball</button>
+  </div>
+  <label class="check"><input type="checkbox" id="removeBg"> Remove image background</label>
+</div>
+
+<p class="note">Changes apply straight away and are saved automatically. Size is the ball's width in pixels. A higher follow speed makes the ball catch up faster.</p>
+<button type="button" class="danger" id="reset">Reset all settings</button>
+
+<script src="settings.js"></script>
+</body>
+</html>
